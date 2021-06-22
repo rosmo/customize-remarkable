@@ -1,0 +1,16 @@
+[Unit]
+Description=reMarkable VNC service
+StartLimitIntervalSec=5
+StartLimitBurst=4
+Requires=xochitl.service
+After=xochitl.service
+
+[Service]
+# wait sometime or the screen will be garbled
+# TODO: figure out better dependency
+ExecStart=/opt/rm-vnc-server/rM-vnc-server-standalone
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
