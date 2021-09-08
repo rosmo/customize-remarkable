@@ -16,8 +16,9 @@ doscp() {
 
 
 
-dossh "mkdir -p /opt/rm-vnc-server/ && wget -O/opt/rm-vnc-server/rM-vnc-server-standalone https://github.com/bordaigorl/rmview/raw/vnc/bin/rM2-vnc-server-standalone && chmod +x /opt/rm-vnc-server/rM-vnc-server-standalone"
-doscp libcrypto.so.1.0.2 /usr/lib
-doscp vnc.service /etc/systemd/system
-dossh "systemctl daemon-reload && systemctl start vnc"
+#dossh "mkdir -p /opt/rm-vnc-server/ && wget -O/opt/rm-vnc-server/rM-vnc-server-standalone https://github.com/bordaigorl/rmview/raw/test-new-server/bin/rM2-vnc-server-standalone && chmod +x /opt/rm-vnc-server/rM-vnc-server-standalone"
+#doscp libcrypto.so.1.0.2 /usr/lib
+dossh "rm -f /usr/lib/libcrypto.so.1.0.2"
+#doscp vnc.service /etc/systemd/system
+#dossh "systemctl daemon-reload && systemctl start vnc"
 dossh "wget -O - http://raw.githubusercontent.com/Evidlo/remarkable_printer/master/install.sh | sh"
