@@ -1,0 +1,10 @@
+[Unit]
+Description=Go Remarkable Stream Server
+
+[Service]
+ExecStart=/home/root/goMarkableStream
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF

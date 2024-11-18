@@ -14,11 +14,13 @@ doscp() {
   sshpass -p $password scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null $1 root@$host:$2 
 }
 
+echo "Install better wget..."
+dossh "mkdir -p /opt/bin && wget -Owget-new http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1 && mv wget-new /opt/bin/wget && chmod a+x /opt/bin/wget"
 
+echo "Installing printer..."
+dossh "/opt/bin/wget -O - http://evidlo.github.io/remarkable_printer/install.sh | sed 's/http:/https:/g' | sh"
 
-#dossh "mkdir -p /opt/rm-vnc-server/ && wget -O/opt/rm-vnc-server/rM-vnc-server-standalone https://github.com/bordaigorl/rmview/raw/test-new-server/bin/rM2-vnc-server-standalone && chmod +x /opt/rm-vnc-server/rM-vnc-server-standalone"
-#doscp libcrypto.so.1.0.2 /usr/lib
-dossh "rm -f /usr/lib/libcrypto.so.1.0.2"
-#doscp vnc.service /etc/systemd/system
-#dossh "systemctl daemon-reload && systemctl start vnc"
-dossh "wget -O - http://raw.githubusercontent.com/Evidlo/remarkable_printer/master/install.sh | sh"
+echo "Installing goMarkableStream..."
+dossh "export GORKVERSION=\$(/opt/bin/wget -q -O - https://api.github.com/repos/owulveryck/goMarkableStream/releases/latest | grep tag_name | awk -F\\\" '{print \$4}') && /opt/bin/wget -q -O - https://github.com/owulveryck/goMarkableStream/releases/download/\$GORKVERSION/goMarkableStream_\${GORKVERSION//v}_linux_arm.tar.gz | tar xzvf - -O goMarkableStream_\${GORKVERSION//v}_linux_arm/goMarkableStream > goMarkableStream && chmod +x goMarkableStream"
+doscp goMarkableStream.service /etc/systemd/system
+dossh "systemctl enable goMarkableStream.service && systemctl start goMarkableStream.service"
